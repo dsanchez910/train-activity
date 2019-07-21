@@ -25,7 +25,33 @@ var firebaseConfig = {
     name: trainName,
     destination: trainDestination, 
     firstTrain: trainFirst,
-    frequency = 0
+    frequency = trainFrequency
   };
 
+  database.ref().push(newTrain);
+
+  console.log(newTrain.name);
+  console.log(newTrain.destination);
+  console.log(newTrain.firstTrain);
+  console.log(newTrain.frequency);
+
+  $("#train-name-input").val("");
+  $("#destination-input").val("");
+  $("#first-train-input").val("");
+  $("#frequency-input").val("");
+});
+
+database.ref().on("child_added", function(childSnapshot) {
+    console.log(childSnapshot.val());
   
+    // Store everything into a variable.
+    const trainName = childSnapshot.val().name;
+    const trainDestination = childSnapshot.val().destination;
+    const trainFirst = childSnapshot.val().firstTrain;
+    const frequency = childSnapshot.val().frequency;
+  
+    // Employee Info
+    console.log(trainName);
+    console.log(trainDestination);
+    console.log(trainFirst);
+    console.log(frequency);
