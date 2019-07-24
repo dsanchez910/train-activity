@@ -25,7 +25,7 @@ var firebaseConfig = {
     name: trainName,
     destination: trainDestination, 
     firstTrain: trainFirst,
-    frequency = trainFrequency
+    frequency: frequency
   };
 
   database.ref().push(newTrain);
@@ -35,23 +35,58 @@ var firebaseConfig = {
   console.log(newTrain.firstTrain);
   console.log(newTrain.frequency);
 
+  alert("Added new train");
+
   $("#train-name-input").val("");
   $("#destination-input").val("");
   $("#first-train-input").val("");
   $("#frequency-input").val("");
 });
 
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.val());
-  
-    // Store everything into a variable.
+database.ref().on("child_added", function(childSnapshot) {  
+    
     const trainName = childSnapshot.val().name;
-    const trainDestination = childSnapshot.val().destination;
-    const trainFirst = childSnapshot.val().firstTrain;
+    const destination = childSnapshot.val().destination;
+    const firstTrain = childSnapshot.val().firstTrain;
     const frequency = childSnapshot.val().frequency;
   
-    // Employee Info
-    console.log(trainName);
-    console.log(trainDestination);
-    console.log(trainFirst);
-    console.log(frequency);
+    var firstTrainConverted = moment(firstTrain, "hh:mm").subtract("1, years");
+ 
+   
+
+    var newTrain = {
+        name: trainName,
+        destination: destination,
+        firstTrain: firstTrain,
+        // frequency: frequency,
+        // min: minUntilTrain,
+        // next: nextTrain
+    }
+
+    var newTrain = $("<tr>").append(
+        $("<td>").text(trainName),
+        $("<td>").text(trainDestination),
+        $("<td>").text(trainFirst),
+        $("<td>").text(frequency),
+        $("<td>").text(nextArrival),
+        $("<td>").text(minsAway),
+       
+       
+      );
+    
+      
+      $("#train-table > tbody").append(newTrain);
+    });
+
+    //console.log(newTrain);
+        // database.ref().push(newTrain);
+
+    $("#trainName").val("");
+    $("#trainDestination").val("");
+    $("#trainFirst").val("");
+    $("#frequency").val("");
+    $("#nextArrival").val("");
+    $("#minsAway").val("");
+
+
+    
